@@ -1,6 +1,8 @@
+# -*- coding: utf-8 -*-
 class WebViewController < UIViewController
   def viewDidLoad
     super
+
     self.title = "..."
     @title_view = self.navigationItem.titleView
 
@@ -20,6 +22,37 @@ class WebViewController < UIViewController
     @web_view.delegate = @wview_proxy
     @wview_proxy.webViewProxyDelegate = self
     @wview_proxy.progressDelegate = self
+
+    self.navigationItem.rightBarButtonItem = create_action
+  end
+
+  def create_action
+    @action_bar_button ||= UIBarButtonItem.alloc.
+      initWithBarButtonSystemItem(UIBarButtonSystemItemAction,
+                                  target:self, action:'menu_action:')
+    @action_bar_button
+  end
+
+  def menu_action sender
+    @action_sheet ||= UIActionSheet.alloc.initWithTitle("アクション",
+                                                        delegate: self,
+                                                        cancelButtonTitle: "キャンセル",
+                                                        destructiveButtonTitle: nil,
+                                                        otherButtonTitles: "再読みこみ",
+                                                                           "ブックマーク",
+                                                                           nil)
+    @action_sheet.showInView self.view
+  end
+
+  def actionSheet actionSheet, clickedButtonAtIndex: buttonIndex
+    case buttonIndex
+    when 0 # 再読込
+      @web_view.reload
+    when 1 # ブックマーク
+    when 2 # キャンセル
+    else
+      puts buttonIndex
+    end
   end
 
   def show_start_page
