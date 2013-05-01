@@ -3,7 +3,6 @@ class WebViewController < UIViewController
   def viewDidLoad
     super
 
-    self.title = "..."
     @title_view = self.navigationItem.titleView
 
     @web_view = UIWebView.new
@@ -23,35 +22,22 @@ class WebViewController < UIViewController
     @wview_proxy.webViewProxyDelegate = self
     @wview_proxy.progressDelegate = self
 
-    self.navigationItem.rightBarButtonItem = create_action
+    frame = [[0.0, 0.0], [200.0, self.navigationController.navigationBar.bounds.size.height]]
+    @menu = SINavigationMenuView.alloc.initWithFrame(frame, title:"...")
+    @menu.displayMenuInView(self.view)
+    @menu.items = "再読み込み", "ブックマーク"
+    @menu.delegate = self
+    self.navigationItem.titleView = @menu
   end
 
-  def create_action
-    @action_bar_button ||= UIBarButtonItem.alloc.
-      initWithBarButtonSystemItem(UIBarButtonSystemItemAction,
-                                  target:self, action:'menu_action:')
-    @action_bar_button
-  end
-
-  def menu_action sender
-    @action_sheet ||= UIActionSheet.alloc.initWithTitle("アクション",
-                                                        delegate: self,
-                                                        cancelButtonTitle: "キャンセル",
-                                                        destructiveButtonTitle: nil,
-                                                        otherButtonTitles: "再読みこみ",
-                                                                           "ブックマーク",
-                                                                           nil)
-    @action_sheet.showInView self.view
-  end
-
-  def actionSheet actionSheet, clickedButtonAtIndex: buttonIndex
-    case buttonIndex
+  # for SINavigationMenuDelegate
+  def didSelectItem menu, atIndex:index
+    case index
     when 0 # 再読込
       @web_view.reload
     when 1 # ブックマーク
-    when 2 # キャンセル
     else
-      puts buttonIndex
+      NSLog("Unknown menu pressed...: %@", buttonIndex)
     end
   end
 
@@ -115,8 +101,8 @@ class WebViewController < UIViewController
   end
 
   def webViewDidFinishLoad webView
-    self.navigationItem.titleView = @title_view
-    self.title = document_title
+    self.navigationItem.titleView = @menu
+    @menu.setTitle(document_title)
   end
 
   def webView webView, didFailLoadWithError:error
