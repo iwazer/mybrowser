@@ -10,6 +10,6 @@ Motion::Project::App.setup do |app|
 
   app.pods do
     pod 'NJKWebViewProgress'
-    pod 'SINavigationMenuView', :git => 'https://github.com/iwazer/NavigationMenu.git', :tag => 'v1.0.2'
+    pod 'SINavigationMenuView', :git => 'https://github.com/iwazer/NavigationMenu.git', :tag => 'v1.0.3'
   end
 end
