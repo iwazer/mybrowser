@@ -102,6 +102,10 @@ class WebViewController < UIViewController
 
   def webViewDidFinishLoad webView
     self.navigationItem.titleView = @menu
+    update_title
+  end
+
+  def update_title
     @menu.setTitle(document_title)
   end
 
