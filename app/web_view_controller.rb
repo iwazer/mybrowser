@@ -22,7 +22,7 @@ class WebViewController < UIViewController
     @wview_proxy.webViewProxyDelegate = self
     @wview_proxy.progressDelegate = self
 
-    frame = [[0.0, 0.0], [200.0, self.navigationController.navigationBar.bounds.size.height]]
+    frame = [[0.0, 0.0], [300.0, self.navigationController.navigationBar.bounds.size.height]]
     @menu = SINavigationMenuView.alloc.initWithFrame(frame, title:"...")
     @menu.displayMenuInView(self.view)
     @menu.items = "再読み込み", "ブックマーク"
