@@ -37,7 +37,7 @@ class WebViewController < UIViewController
       @web_view.reload
     when 1 # ブックマーク
     else
-      NSLog("Unknown menu pressed...: %@", buttonIndex)
+      NSLog("Unknown menu pressed...: %@", index)
     end
   end
 
