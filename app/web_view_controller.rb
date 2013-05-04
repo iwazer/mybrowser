@@ -12,7 +12,7 @@ class WebViewController < UIViewController
     create_navi
     setup_gesture
 
-    show_start_page
+    show_page "http://www.google.co.jp/"
   end
 
   def create_navi
@@ -45,8 +45,8 @@ class WebViewController < UIViewController
     end
   end
 
-  def show_start_page
-    url = NSURL.URLWithString "http://www.google.co.jp/"
+  def show_page url
+    url = NSURL.URLWithString url
     req = NSURLRequest.requestWithURL url
     @web_view.loadRequest req
   end
