@@ -14,7 +14,7 @@ Motion::Project::App.setup do |app|
   app.prerendered_icon = true
 
   app.pods do
-    pod 'NJKWebViewProgress'
-    pod 'SINavigationMenuView', :git => 'https://github.com/iwazer/NavigationMenu.git', :tag => 'v1.0.3'
+    pod 'NJKWebViewProgress', git: 'https://github.com/ninjinkun/NJKWebViewProgress.git', tag: 'v0.1.5'
+    pod 'SINavigationMenuView', git: 'https://github.com/iwazer/NavigationMenu.git', tag: 'v1.0.3'
   end
 end
