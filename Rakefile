@@ -10,6 +10,8 @@ Motion::Project::App.setup do |app|
   app.frameworks += ['CoreData']
   app.codesign_certificate = ENV['CODESIGN_CERTIFICATE']
   app.provisioning_profile = ENV['PROVISIONING_PROFILE']
+  app.icons = ["appicon512.png","appicon144.png","appicon144.png"]
+  app.prerendered_icon = true
 
   app.pods do
     pod 'NJKWebViewProgress'
