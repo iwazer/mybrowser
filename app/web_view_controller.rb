@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 class WebViewController < UIViewController
+  attr_writer :goto_url
+
   def viewDidLoad
     super
 
@@ -37,7 +39,7 @@ class WebViewController < UIViewController
     when 0 # 再読込
       @web_view.reload
     when 1 # ブックマークに保存
-      store_bookmark
+      store_bookmark if @current_url
     when 2 # ブックマークから選択
       show_bookmarks
     else
@@ -117,12 +119,12 @@ class WebViewController < UIViewController
     webViewDidFinishLoad(webView)
   end
 
-  def document_title
-    @web_view.stringByEvaluatingJavaScriptFromString("document.title")
+  def webView webview, shouldStartLoadWithRequest:request, navigationType:navigationType
+    @current_url = request.URL.absoluteString
   end
 
-  def current_url
-    @web_view.stringByEvaluatingJavaScriptFromString("window.location")
+  def document_title
+    @web_view.stringByEvaluatingJavaScriptFromString("document.title")
   end
 
   ### Bookmark
@@ -131,7 +133,7 @@ class WebViewController < UIViewController
     BookmarkStore.shared.addEntry do |bookmark|
       bookmark.title = document_title
       bookmark.memo = ''
-      bookmark.url = current_url
+      bookmark.url = @current_url
       bookmark.created_at = Time.now
       bookmark.updated_at = Time.now
     end
@@ -140,7 +142,17 @@ class WebViewController < UIViewController
   def show_bookmarks
     @bookmarks_controller = BookmarksController.new
     @bookmarks_controller.title = "ブックマーク"
+    @bookmarks_controller.delegate = self
 
     self.navigationController.pushViewController(@bookmarks_controller, animated:true)
+  end
+
+  def viewDidAppear animated
+    super
+
+    if @goto_url
+      show_page @goto_url
+      @goto_url = nil
+    end
   end
 end
