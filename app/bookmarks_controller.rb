@@ -18,11 +18,14 @@ class BookmarksController < UITableViewController
     @@cellIdentifier = "BookmarkCell"
     cell = tableView.dequeueReusableCellWithIdentifier(@@cellIdentifier)
     unless cell
-      cell = UITableViewCell.alloc.initWithFrame(CGRectZero, reuseIdentifier:@@cellIdentifier)
+      cell = UITableViewCell.alloc.initWithStyle(
+        UITableViewCellStyleSubtitle, reuseIdentifier:@@cellIdentifier)
       cell.textLabel.minimumScaleFactor = 10.0/15
       cell.textLabel.adjustsFontSizeToFitWidth = true
     end
-    cell.textLabel.text = @store.bookmarks[indexPath.row].title
+    bookmark = @store.bookmarks[indexPath.row]
+    cell.textLabel.text = bookmark.title
+    cell.detailTextLabel.text = bookmark.url
     cell
   end
 
