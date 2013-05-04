@@ -25,7 +25,7 @@ class WebViewController < UIViewController
     frame = [[0.0, 0.0], [300.0, self.navigationController.navigationBar.bounds.size.height]]
     @menu = SINavigationMenuView.alloc.initWithFrame(frame, title:"...")
     @menu.displayMenuInView(self.view)
-    @menu.items = "再読み込み", "ブックマーク"
+    @menu.items = "再読み込み", "ブックマークに保存", "ブックマークから選択"
     @menu.delegate = self
     self.navigationItem.titleView = @menu
   end
@@ -35,7 +35,15 @@ class WebViewController < UIViewController
     case index
     when 0 # 再読込
       @web_view.reload
-    when 1 # ブックマーク
+    when 1 # ブックマークに保存
+      BookmarkStore.shared.addEntry do |bookmark|
+        bookmark.title = document_title
+        bookmark.memo = ''
+        bookmark.url = current_url
+        bookmark.created_at = Time.now
+        bookmark.updated_at = Time.now
+      end
+    when 2 # ブックマークから選択
     else
       NSLog("Unknown menu pressed...: %@", index)
     end
@@ -115,5 +123,9 @@ class WebViewController < UIViewController
 
   def document_title
     @web_view.stringByEvaluatingJavaScriptFromString("document.title")
+  end
+
+  def current_url
+    @web_view.stringByEvaluatingJavaScriptFromString("window.location")
   end
 end
