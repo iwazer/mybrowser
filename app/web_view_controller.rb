@@ -6,6 +6,7 @@ class WebViewController < UIViewController
     @title_view = self.navigationItem.titleView
 
     @web_view = UIWebView.new
+    @web_view.scalesPageToFit = true
     self.view = @web_view
 
     create_navi
