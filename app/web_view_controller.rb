@@ -24,6 +24,7 @@ class WebViewController < UIViewController
     @web_view.delegate = @wview_proxy
     @wview_proxy.webViewProxyDelegate = self
     @wview_proxy.progressDelegate = self
+    @wview_proxy.progressBlock = ->(progress) { @progress.progress = progress }
 
     frame = [[0.0, 0.0], [300.0, self.navigationController.navigationBar.bounds.size.height]]
     @menu = SINavigationMenuView.alloc.initWithFrame(frame, title:"...")
@@ -96,10 +97,6 @@ class WebViewController < UIViewController
   end
 
   ### WebView and Progres Delegater
-
-  def webViewProgress webViewProgress, updateProgress:progress
-    @progress.progress = progress
-  end
 
   def webViewDidStartLoad webView
     @progress.progress = 0.0
