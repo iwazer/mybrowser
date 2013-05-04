@@ -38,6 +38,7 @@ class WebViewController < UIViewController
     when 1 # ブックマークに保存
       store_bookmark
     when 2 # ブックマークから選択
+      show_bookmarks
     else
       NSLog("Unknown menu pressed...: %@", index)
     end
@@ -123,7 +124,7 @@ class WebViewController < UIViewController
     @web_view.stringByEvaluatingJavaScriptFromString("window.location")
   end
 
-  ### Store bookmark
+  ### Bookmark
 
   def store_bookmark
     BookmarkStore.shared.addEntry do |bookmark|
@@ -133,5 +134,12 @@ class WebViewController < UIViewController
       bookmark.created_at = Time.now
       bookmark.updated_at = Time.now
     end
+  end
+
+  def show_bookmarks
+    @bookmarks_controller = BookmarksController.new
+    @bookmarks_controller.title = "ブックマーク"
+
+    self.navigationController.pushViewController(@bookmarks_controller, animated:true)
   end
 end

@@ -5,11 +5,15 @@ class BookmarkStore
     end
   end
 
-  def bookmarks
+  def bookmarks params={}
     @bookmarks ||= begin
       request = NSFetchRequest.new
       request.entity = NSEntityDescription.entityForName('Bookmark', inManagedObjectContext:@context)
       request.sortDescriptors = [NSSortDescriptor.alloc.initWithKey('created_at', ascending:false)]
+      limit = params[:limit] || 10
+      start = params[:start] || 0
+      request.setFetchLimit(limit)
+      request.setFetchOffset(start)
 
       error_ptr = Pointer.new(:object)
       data = @context.executeFetchRequest(request, error:error_ptr)
