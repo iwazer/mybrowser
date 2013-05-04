@@ -24,9 +24,7 @@ class BookmarkStore
 
   def addEntry
     yield NSEntityDescription.insertNewObjectForEntityForName('Bookmark', inManagedObjectContext:@context)
-    puts '100'
     save
-    puts '101'
   end
 
   def updateEntry id, attributes = {}
