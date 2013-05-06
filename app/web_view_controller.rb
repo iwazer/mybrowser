@@ -5,6 +5,11 @@ class WebViewController < UIViewController
   def viewDidLoad
     super
 
+    NSNotificationCenter.defaultCenter.addObserver(self,
+                                                   selector:'applicationDidBecomeActive',
+                                                   name:UIApplicationDidBecomeActiveNotification,
+                                                   object:nil)
+
     @title_view = self.navigationItem.titleView
 
     @web_view = UIWebView.new
@@ -49,7 +54,7 @@ class WebViewController < UIViewController
   end
 
   def show_page url
-    url = NSURL.URLWithString url
+    url = NSURL.URLWithString url if url.is_a?(String)
     req = NSURLRequest.requestWithURL url
     @web_view.loadRequest req
   end
@@ -150,6 +155,27 @@ class WebViewController < UIViewController
     if @goto_url
       show_page @goto_url
       @goto_url = nil
+    end
+  end
+
+  ### on Activate Notification
+
+  def applicationDidBecomeActive
+    url = Pasteboard.url.absoluteString
+    if url
+      alert = UIAlertView.alloc.initWithTitle("クリップボードにURLがあります",
+                                              message: "#{url}を表示しますか？",
+                                              delegate: self,
+                                              cancelButtonTitle: "キャンセル",
+                                              otherButtonTitles: "表示",nil)
+      alert.show
+    end
+  end
+
+  def alertView alertView, clickedButtonAtIndex:buttonIndex
+    case buttonIndex
+    when 1
+      show_page Pasteboard.url
     end
   end
 end
