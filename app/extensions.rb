@@ -1,6 +1,12 @@
-class Object
+class NSObject
   def blank?
     false
+  end
+
+  def try method
+    if self.respond_to?(method)
+      self.__send__(method)
+    end
   end
 end
 

@@ -161,7 +161,7 @@ class WebViewController < UIViewController
   ### on Activate Notification
 
   def applicationDidBecomeActive
-    url = Pasteboard.url.absoluteString
+    url = Pasteboard.url.try(:absoluteString)
     if url
       alert = UIAlertView.alloc.initWithTitle("クリップボードにURLがあります",
                                               message: "#{url}を表示しますか？",
