@@ -12,6 +12,8 @@ Motion::Project::App.setup do |app|
   app.provisioning_profile = ENV['PROVISIONING_PROFILE']
   app.icons = ["appicon512.png","appicon144.png","appicon144.png"]
   app.prerendered_icon = true
+  app.testflight.team_token = ENV['MYBROWSER_TF_TEAM_TOKEN']
+  app.testflight.distribution_lists = ENV['MYBROWSER_TF_DISTRIBUTION_LISTS'].split(',')
 
   app.pods do
     pod 'NJKWebViewProgress', git: 'https://github.com/ninjinkun/NJKWebViewProgress.git', tag: 'v0.1.5'
