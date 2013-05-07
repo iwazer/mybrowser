@@ -12,6 +12,8 @@ Motion::Project::App.setup do |app|
   app.provisioning_profile = ENV['PROVISIONING_PROFILE']
   app.icons = ["appicon512.png","appicon144.png","appicon144.png"]
   app.prerendered_icon = true
+  app.testflight.sdk = 'vendor/TestFlight'
+  app.testflight.api_token = ENV['MYBROWSER_TF_API_TOKEN']
   app.testflight.team_token = ENV['MYBROWSER_TF_TEAM_TOKEN']
   app.testflight.distribution_lists = ENV['MYBROWSER_TF_DISTRIBUTION_LISTS'].split(',')
 
