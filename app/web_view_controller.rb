@@ -34,7 +34,7 @@ class WebViewController < UIViewController
     frame = [[0.0, 0.0], [300.0, self.navigationController.navigationBar.bounds.size.height]]
     @menu = SINavigationMenuView.alloc.initWithFrame(frame, title:"...")
     @menu.displayMenuInView(self.view)
-    @menu.items = "再読み込み", "ブックマークに保存", "ブックマークから選択"
+    @menu.items = "設定","再読み込み", "ブックマークに保存", "ブックマークから選択"
     @menu.delegate = self
     self.navigationItem.titleView = @menu
   end
@@ -42,11 +42,13 @@ class WebViewController < UIViewController
   # for SINavigationMenuDelegate
   def didSelectItem menu, atIndex:index
     case index
-    when 0 # 再読込
+    when 0 # 設定
+      show_settings
+    when 1 # 再読込
       @web_view.reload
-    when 1 # ブックマークに保存
+    when 2 # ブックマークに保存
       store_bookmark if @current_url
-    when 2 # ブックマークから選択
+    when 3 # ブックマークから選択
       show_bookmarks
     else
       NSLog("Unknown menu pressed...: %@", index)
@@ -177,5 +179,15 @@ class WebViewController < UIViewController
     when 1
       show_page Pasteboard.url
     end
+  end
+
+  ### Settings
+
+  def show_settings
+    @settings_controller = SettingsController.alloc.initWithStyle(UITableViewStyleGrouped)
+    @settings_controller.title = "設定"
+    @settings_controller.delegate = self
+
+    self.navigationController.pushViewController(@settings_controller, animated:true)
   end
 end
