@@ -21,6 +21,11 @@ Motion::Project::App.setup do |app|
   app.testflight.team_token = ENV['MYBROWSER_TF_TEAM_TOKEN']
   app.testflight.distribution_lists = ENV['MYBROWSER_TF_DISTRIBUTION_LISTS'].split(',')
 
+  app.info_plist['CFBundleURLTypes'] = [
+    { 'CFBundleURLName' => 'com.iwazer.mybrowser',
+      'CFBundleURLSchemes' => ['iwazer-mybrowser'] }
+  ]
+
   app.pods do
     pod 'NJKWebViewProgress', git: 'https://github.com/ninjinkun/NJKWebViewProgress.git', tag: 'v0.1.5'
     pod 'SINavigationMenuView', git: 'https://github.com/iwazer/NavigationMenu.git', tag: 'v1.0.3'
