@@ -164,7 +164,7 @@ class WebViewController < UIViewController
 
   def applicationDidBecomeActive
     url = Pasteboard.url.try(:absoluteString)
-    if url
+    if url and UIApplication.sharedApplication.delegate.paste_url_cache.read(url)
       alert = UIAlertView.alloc.initWithTitle("クリップボードにURLがあります",
                                               message: "#{url}を表示しますか？",
                                               delegate: self,
@@ -177,6 +177,7 @@ class WebViewController < UIViewController
   def alertView alertView, clickedButtonAtIndex:buttonIndex
     case buttonIndex
     when 1
+      UIApplication.sharedApplication.delegate.paste_url_cache.store(url, url)
       show_page Pasteboard.url
     end
   end
