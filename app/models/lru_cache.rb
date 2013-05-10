@@ -1,4 +1,4 @@
-class Cache
+class LruCache
   attr_accessor :max_size
 
   class << self
@@ -8,13 +8,12 @@ class Cache
         cache.instance_variable_get('@data'),
         cache.max_size], options: 0, error: error_ptr)
     end
-    def restore serialized
-      cache = Cache.new(20)
+    def restore serialized, max=20
+      cache = LruCache.new(max)
       if serialized
         begin
-          data = serialized.dataUsingEncoding(4, allowLossyConversion:false)
           error_ptr = Pointer.new(:object)
-          data, max = NSJSONSerialization.JSONObjectWithData(data, options: 1|2|4, error: error_ptr)
+          data, max = NSJSONSerialization.JSONObjectWithData(serialized, options: 1|2|4, error: error_ptr)
           if data
             cache.instance_variable_set('@data', data)
             cache.max_size = max

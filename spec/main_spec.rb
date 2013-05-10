@@ -1,4 +1,4 @@
-describe "Application 'uivp-try'" do
+describe "Application 'mybrowser'" do
   before do
     @app = UIApplication.sharedApplication
   end

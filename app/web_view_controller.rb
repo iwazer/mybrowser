@@ -4,6 +4,7 @@ class WebViewController < UIViewController
 
   def viewDidLoad
     super
+    @pasteboard = App.delegate.pasteboard
 
     NSNotificationCenter.defaultCenter.addObserver(self,
                                                    selector:'applicationDidBecomeActive',
@@ -163,13 +164,14 @@ class WebViewController < UIViewController
   ### on Activate Notification
 
   def applicationDidBecomeActive
-    url = Pasteboard.url.try(:absoluteString)
-    if url and UIApplication.sharedApplication.delegate.paste_url_cache.read(url)
+    url = @pasteboard.url.try(:absoluteString)
+    if url
       alert = UIAlertView.alloc.initWithTitle("クリップボードにURLがあります",
                                               message: "#{url}を表示しますか？",
                                               delegate: self,
                                               cancelButtonTitle: "キャンセル",
                                               otherButtonTitles: "表示",nil)
+      alert.instance_variable_set('@url', url)
       alert.show
     end
   end
@@ -177,8 +179,7 @@ class WebViewController < UIViewController
   def alertView alertView, clickedButtonAtIndex:buttonIndex
     case buttonIndex
     when 1
-      UIApplication.sharedApplication.delegate.paste_url_cache.store(url, url)
-      show_page Pasteboard.url
+      show_page alertView.instance_variable_get('@url')
     end
   end
 

@@ -1,9 +1,8 @@
 class AppDelegate
-  attr_reader :paste_url_cache
-
   def application(application, didFinishLaunchingWithOptions:launchOptions)
     NSUserDefaults.standardUserDefaults.registerDefaults("UserAgent" => "Mozilla/5.0 (iPhone; CPU iPhone OS 5_1 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 iwazer.MyBrowser/0.1")
     @window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
+    return if App.test?
 
     @web_view_controller = WebViewController.new
 
@@ -15,16 +14,20 @@ class AppDelegate
   end
 
   def applicationDidBecomeActive application
+    pasteboard
+  end
+
+  def pasteboard
+    @pasteboard ||= load_pasteboard
+  end
+
+  def load_pasteboard
     defaults = NSUserDefaults.standardUserDefaults
-    s = defaults["paste_url_cache"]
-    puts s
-    @paste_url_cache = Cache.restore(s)
+    Pasteboard.new(LruCache.restore(defaults["pasteboard_cache"]))
   end
 
   def applicationDidEnterBackground application
     defaults = NSUserDefaults.standardUserDefaults
-    s = Cache.serialize(@paste_url_cache)
-    puts s
-    defaults["paste_url_cache"] = s
+    defaults["pasteboard_cache"] = LruCache.serialize(@pasteboard.instance_variable_get('@cache'))
   end
 end
