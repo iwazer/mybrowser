@@ -16,6 +16,7 @@ class WebViewController < UIViewController
     @web_view = UIWebView.new
     @web_view.scalesPageToFit = true
     self.view = @web_view
+    @scrollViewContentOffsetYThreshold = 0
 
     create_navi
     setup_gesture
@@ -38,6 +39,8 @@ class WebViewController < UIViewController
     @menu.items = "設定","再読み込み", "ブックマークに保存", "ブックマークから選択", "はてなブックマークに送る"
     @menu.delegate = self
     self.navigationItem.titleView = @menu
+
+    @web_view.scrollView.delegate = self
   end
 
   # for SINavigationMenuDelegate
@@ -132,6 +135,31 @@ class WebViewController < UIViewController
 
   def document_title
     @web_view.stringByEvaluatingJavaScriptFromString("document.title")
+  end
+
+  ### UIViewController
+
+  def viewWillAppear animated
+    super
+    navigation_bar_position
+  end
+
+  def scrollViewWillBeginDragging scrollView
+    @scroll_begin_point = scrollView.contentOffset
+  end
+
+  def scrollViewDidScroll scrollView
+    navigation_bar_position
+  end
+
+  def navigation_bar_position
+    if @scroll_begin_point and @web_view.scrollView
+      if @scroll_begin_point.y < @web_view.scrollView.contentOffset.y
+        self.navigationController.navigationBarHidden = true unless self.navigationController.navigationBarHidden?
+      else
+        self.navigationController.navigationBarHidden = false if self.navigationController.navigationBarHidden?
+      end
+    end
   end
 
   ### Bookmark
