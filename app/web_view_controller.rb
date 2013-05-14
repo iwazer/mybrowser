@@ -35,7 +35,7 @@ class WebViewController < UIViewController
     frame = [[0.0, 0.0], [300.0, self.navigationController.navigationBar.bounds.size.height]]
     @menu = SINavigationMenuView.alloc.initWithFrame(frame, title:"...")
     @menu.displayMenuInView(self.view)
-    @menu.items = "設定","再読み込み", "ブックマークに保存", "ブックマークから選択"
+    @menu.items = "設定","再読み込み", "ブックマークに保存", "ブックマークから選択", "はてなブックマークに送る"
     @menu.delegate = self
     self.navigationItem.titleView = @menu
   end
@@ -51,6 +51,8 @@ class WebViewController < UIViewController
       store_bookmark if @current_url
     when 3 # ブックマークから選択
       show_bookmarks
+    when 4 # はてなブックマークに送る
+      invoke_hatena_bookmark
     else
       NSLog("Unknown menu pressed...: %@", index)
     end
@@ -191,5 +193,11 @@ class WebViewController < UIViewController
     @settings_controller.delegate = self
 
     self.navigationController.pushViewController(@settings_controller, animated:true)
+  end
+
+  ### invoke Hatena Bookmark
+
+  def invoke_hatena_bookmark
+    HatenaBookmark.invoke @current_url, document_title
   end
 end

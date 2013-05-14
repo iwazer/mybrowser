@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class Pasteboard
   def initialize cache=nil
     @cache = cache

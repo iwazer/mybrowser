@@ -25,4 +25,9 @@ class NSString
   def valid_url?
     RE_URL =~ self
   end
+
+  def uriEncode
+    CFURLCreateStringByAddingPercentEscapes(
+      KCFAllocatorDefault, self, nil, "!*'():@&=+$,/?%#[]", KCFStringEncodingUTF8)
+  end
 end
