@@ -30,10 +30,10 @@ GEM
       multipart-post (~> 1.1)
     faraday_middleware (0.9.0)
       faraday (>= 0.7.4, < 0.9)
-    hashie (2.0.4)
+    hashie (2.0.5)
     i18n (0.6.1)
     json (1.7.7)
-    motion-cocoapods (1.3.0)
+    motion-cocoapods (1.3.1)
       cocoapods (>= 0.17.0)
     motion-testflight (1.5)
     multi_json (1.7.3)
@@ -56,7 +56,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bubble-wrap (~> 1.3.0.ios)
+  bubble-wrap (~> 1.3.0.osx)
   cocoapods
-  motion-cocoapods
+  motion-cocoapods (= 1.3.1)
   motion-testflight
