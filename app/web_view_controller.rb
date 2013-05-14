@@ -125,7 +125,7 @@ class WebViewController < UIViewController
   end
 
   def webView webview, shouldStartLoadWithRequest:request, navigationType:navigationType
-    @current_url = request.URL.absoluteString
+    @current_url = request.mainDocumentURL.absoluteString
   end
 
   def document_title
