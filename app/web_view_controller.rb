@@ -156,7 +156,9 @@ class WebViewController < UIViewController
     if @scroll_begin_point and @web_view.scrollView
       if @scroll_begin_point.y < @web_view.scrollView.contentOffset.y
         self.navigationController.navigationBarHidden = true unless self.navigationController.navigationBarHidden?
+        App.shared.setStatusBarHidden(true, withAnimation:UIStatusBarAnimationFade)
       else
+        App.shared.setStatusBarHidden(false, withAnimation:UIStatusBarAnimationFade)
         self.navigationController.navigationBarHidden = false if self.navigationController.navigationBarHidden?
       end
     end
