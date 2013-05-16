@@ -7,7 +7,7 @@ Bundler.require
 Motion::Project::App.setup do |app|
   # Use `rake config' to see complete project settings.
   app.name = 'mybrowser'
-  app.version = '1.0.1'
+  app.version = '1.0.2'
   app.short_version = '1'
   app.deployment_target = '5.0'
   app.identifier = 'com.iwazer.mybrowser'
