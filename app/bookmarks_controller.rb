@@ -4,6 +4,7 @@ class BookmarksController < UITableViewController
   def viewDidLoad
     super
     @store = BookmarkStore.shared
+    self.navigationItem.rightBarButtonItem = self.editButtonItem
   end
 
   def numberOfSectionsInTableView tableView
@@ -34,5 +35,18 @@ class BookmarksController < UITableViewController
 
     @delegate.goto_url = url
     self.navigationController.popViewControllerAnimated(true)
+  end
+
+  ### Edit
+
+  def tableView tableView, canEditRowAtIndexPath:indexPath
+    true
+  end
+
+  def tableView tableView, commitEditingStyle:editingStyle, forRowAtIndexPath:indexPath
+    store = BookmarkStore.shared
+    bookmark = store.bookmarks[indexPath.row]
+    store.remove(bookmark)
+    tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation:true)
   end
 end
