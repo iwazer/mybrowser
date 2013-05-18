@@ -167,7 +167,7 @@ class WebViewController < UIViewController
   ### Bookmark
 
   def store_bookmark
-    BookmarkStore.shared.addEntry do |bookmark|
+    BookmarkStore.shared.add do |bookmark|
       bookmark.title = document_title
       bookmark.memo = ''
       bookmark.url = @current_url

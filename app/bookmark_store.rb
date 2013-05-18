@@ -22,12 +22,12 @@ class BookmarkStore
     end
   end
 
-  def addEntry
+  def add
     yield NSEntityDescription.insertNewObjectForEntityForName('Bookmark', inManagedObjectContext:@context)
     save
   end
 
-  def updateEntry id, attributes = {}
+  def update id, attributes = {}
     error_ptr = Pointer.new(:object)
     entry = @context.existingObjectWithID(id, error:error_ptr)
     attributes.each do |key, value|
@@ -37,7 +37,7 @@ class BookmarkStore
     save
   end
 
-  def removeBookmark entry
+  def remove entry
     @context.deleteObject(entry)
     save
   end
