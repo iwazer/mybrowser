@@ -31,7 +31,6 @@ class WebViewController < UIViewController
     @web_view.delegate = @wview_proxy
     @wview_proxy.webViewProxyDelegate = self
     @wview_proxy.progressDelegate = self
-    @wview_proxy.progressBlock = ->(progress) { @progress.progress = progress }
 
     frame = [[0.0, 0.0], [300.0, self.navigationController.navigationBar.bounds.size.height]]
     @menu = SINavigationMenuView.alloc.initWithFrame(frame, title:"...")
@@ -116,7 +115,20 @@ class WebViewController < UIViewController
     self.navigationItem.titleView = @progress
   end
 
+  def webViewProgress webViewProgress, updateProgress:progress
+    @progress.setProgress(progress, animated:false)
+  end
+
   def webViewDidFinishLoad webView
+    timer = NSTimer.timerWithTimeInterval(0.4,
+                                          target:self,
+                                          selector:"on_loaded:",
+                                          userInfo:nil,
+                                          repeats:false)
+    NSRunLoop.currentRunLoop.addTimer timer, forMode:NSDefaultRunLoopMode
+  end
+
+  def on_loaded info
     self.navigationItem.titleView = @menu
     update_title
   end
