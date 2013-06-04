@@ -12,14 +12,14 @@ Motion::Project::App.setup do |app|
   app.deployment_target = '5.0'
   app.identifier = 'com.iwazer.mybrowser'
   app.frameworks += ['CoreData']
-  app.codesign_certificate = ENV['CODESIGN_CERTIFICATE']
-  app.provisioning_profile = ENV['PROVISIONING_PROFILE']
+  app.codesign_certificate = ENV['CODESIGN_CERTIFICATE'] if ENV['CODESIGN_CERTIFICATE']
+  app.provisioning_profile = ENV['PROVISIONING_PROFILE'] if ENV['PROVISIONING_PROFILE']
   app.icons = ["appicon512.png","appicon144.png","appicon144.png"]
   app.prerendered_icon = true
   app.testflight.sdk = 'vendor/TestFlight'
-  app.testflight.api_token = ENV['MYBROWSER_TF_API_TOKEN']
-  app.testflight.team_token = ENV['MYBROWSER_TF_TEAM_TOKEN']
-  app.testflight.distribution_lists = ENV['MYBROWSER_TF_DISTRIBUTION_LISTS'].split(',')
+  app.testflight.api_token = ENV['MYBROWSER_TF_API_TOKEN'] if ENV['MYBROWSER_TF_API_TOKEN']
+  app.testflight.team_token = ENV['MYBROWSER_TF_TEAM_TOKEN'] if ENV['MYBROWSER_TF_TEAM_TOKEN']
+  app.testflight.distribution_lists = ENV['MYBROWSER_TF_DISTRIBUTION_LISTS'].split(',') if ENV['MYBROWSER_TF_DISTRIBUTION_LISTS']
 
   app.info_plist['CFBundleURLTypes'] = [
     { 'CFBundleURLName' => 'com.iwazer.mybrowser',
