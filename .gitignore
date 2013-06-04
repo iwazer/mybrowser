@@ -16,4 +16,5 @@ nbproject
 .idea
 vendor
 .ruby-version
+.ruby-gemset
 .dat*
