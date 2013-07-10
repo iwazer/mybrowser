@@ -9,9 +9,9 @@ Motion::Project::App.setup do |app|
   app.name = 'mybrowser'
   app.version = '1.0.2'
   app.short_version = '1'
-  app.deployment_target = '5.0'
+  app.deployment_target = '5.1'
   app.identifier = 'com.iwazer.mybrowser'
-  app.frameworks += ['CoreData']
+  app.frameworks += ['CoreData', 'Security']
   app.codesign_certificate = ENV['CODESIGN_CERTIFICATE'] if ENV['CODESIGN_CERTIFICATE']
   app.provisioning_profile = ENV['PROVISIONING_PROFILE'] if ENV['PROVISIONING_PROFILE']
   app.icons = ["appicon512.png","appicon144.png","appicon144.png"]
@@ -21,13 +21,24 @@ Motion::Project::App.setup do |app|
   app.testflight.team_token = ENV['MYBROWSER_TF_TEAM_TOKEN'] if ENV['MYBROWSER_TF_TEAM_TOKEN']
   app.testflight.distribution_lists = ENV['MYBROWSER_TF_DISTRIBUTION_LISTS'].split(',') if ENV['MYBROWSER_TF_DISTRIBUTION_LISTS']
 
+  app.info_plist['POCKET-CONSUMER-KEY'] = ENV['POCKET_CONSUMER_KEY']
+
   app.info_plist['CFBundleURLTypes'] = [
     { 'CFBundleURLName' => 'com.iwazer.mybrowser',
-      'CFBundleURLSchemes' => ['iwazer-mybrowser'] }
+      'CFBundleURLSchemes' => ['iwazer-mybrowser'] },
+    { 'CFBundleURLName' => 'com.readitlater',
+      'CFBundleURLSchemes' => ["pocketapp#{ENV['POCKET_CONSUMER_KEY'].split("-")[0]}"] }
+  ]
+
+  app.entitlements['keychain-access-groups'] = [
+    app.seed_id + '.' + app.identifier
   ]
 
   app.pods do
     pod 'NJKWebViewProgress'
-    pod 'SINavigationMenuView', git: 'https://github.com/iwazer/NavigationMenu.git', tag: 'v1.0.3'
+    pod 'SINavigationMenuView', {
+      git: 'https://github.com/iwazer/NavigationMenu.git',
+      tag: 'v1.0.3' }
+    pod 'PocketAPI'
   end
 end

@@ -35,7 +35,7 @@ class WebViewController < UIViewController
     frame = [[0.0, 0.0], [300.0, self.navigationController.navigationBar.bounds.size.height]]
     @menu = SINavigationMenuView.alloc.initWithFrame(frame, title:"...")
     @menu.displayMenuInView(self.view)
-    @menu.items = "設定","再読み込み", "ブックマークに保存", "ブックマークから選択", "はてなブックマークに送る"
+    @menu.items = "設定","再読み込み", "ブックマークに保存", "ブックマークから選択", "はてなブックマークに送る", "Pocketログイン", "Pocketに送る"
     @menu.delegate = self
     self.navigationItem.titleView = @menu
 
@@ -55,6 +55,10 @@ class WebViewController < UIViewController
       show_bookmarks
     when 4 # はてなブックマークに送る
       invoke_hatena_bookmark
+    when 5 # Pocketログイン
+      login_pocket
+    when 6 # Pocketに送る
+      invoke_pocket
     else
       NSLog("Unknown menu pressed...: %@", index)
     end
@@ -241,5 +245,15 @@ class WebViewController < UIViewController
 
   def invoke_hatena_bookmark
     HatenaBookmark.invoke @current_url, document_title
+  end
+
+  ### PocketAPI
+
+  def login_pocket
+    Pocket.login
+  end
+
+  def invoke_pocket
+    Pocket.invoke @current_url
   end
 end
