@@ -96,15 +96,11 @@ class WebViewController < UIViewController
   end
 
   def handleSwipeLeftGesture sender
-    if @web_view.canGoBack
-      @web_view.goBack
-    end
+    on_backward sender
   end
 
   def handleSwipeRightGesture sender
-    if @web_view.canGoForward
-      @web_view.goForward
-    end
+    on_forward sender
   end
 
   # ページ自体が横スクロールする場合も有効にする
@@ -174,7 +170,9 @@ class WebViewController < UIViewController
       if @scroll_begin_point.y < @web_view.scrollView.contentOffset.y
         self.navigationController.navigationBarHidden = true unless self.navigationController.navigationBarHidden?
         App.shared.setStatusBarHidden(true, withAnimation:UIStatusBarAnimationFade)
+        self.navigationController.toolbarHidden = true unless self.navigationController.toolbarHidden?
       else
+        self.navigationController.toolbarHidden = false if self.navigationController.toolbarHidden?
         App.shared.setStatusBarHidden(false, withAnimation:UIStatusBarAnimationFade)
         self.navigationController.navigationBarHidden = false if self.navigationController.navigationBarHidden?
       end
@@ -256,5 +254,22 @@ class WebViewController < UIViewController
 
   def invoke_pocket
     Pocket.invoke @current_url
+  end
+
+  ### UI Action
+  def on_backward sender
+    if @web_view.canGoBack
+      @web_view.goBack
+    end
+  end
+
+  def on_forward sender
+    if @web_view.canGoForward
+      @web_view.goForward
+    end
+  end
+
+  def on_stop sender
+    @web_view.stopLoading
   end
 end
