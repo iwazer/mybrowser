@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 class WebViewController < UIViewController
+  extend IB
+
   attr_writer :goto_url
 
   def viewDidLoad
@@ -13,9 +15,8 @@ class WebViewController < UIViewController
 
     @title_view = self.navigationItem.titleView
 
-    @web_view = UIWebView.new
+    @web_view = self.view.subviews.first
     @web_view.scalesPageToFit = true
-    self.view = @web_view
     @scrollViewContentOffsetYThreshold = 0
 
     create_navi

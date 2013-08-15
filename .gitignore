@@ -18,3 +18,4 @@ vendor
 .ruby-version
 .ruby-gemset
 .dat*
+ib.xcodeproj

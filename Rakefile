@@ -12,6 +12,9 @@ Motion::Project::App.setup do |app|
   app.deployment_target = '5.1'
   app.identifier = 'com.iwazer.mybrowser'
   app.frameworks += ['CoreData', 'Security']
+
+  app.info_plist['UIMainStoryboardFile'] = 'Storyboard'
+
   app.codesign_certificate = ENV['CODESIGN_CERTIFICATE'] if ENV['CODESIGN_CERTIFICATE']
   app.provisioning_profile = ENV['PROVISIONING_PROFILE'] if ENV['PROVISIONING_PROFILE']
   app.icons = ["appicon512.png","appicon144.png","appicon144.png"]
