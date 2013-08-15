@@ -15,6 +15,8 @@ class Pasteboard
       else
         @cache.store(s, s)
       end
+    else
+      url = nil
     end
     url
   end
