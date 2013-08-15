@@ -24,7 +24,7 @@ Motion::Project::App.setup do |app|
   app.testflight.team_token = ENV['MYBROWSER_TF_TEAM_TOKEN'] if ENV['MYBROWSER_TF_TEAM_TOKEN']
   app.testflight.distribution_lists = ENV['MYBROWSER_TF_DISTRIBUTION_LISTS'].split(',') if ENV['MYBROWSER_TF_DISTRIBUTION_LISTS']
 
-  app.info_plist['POCKET-CONSUMER-KEY'] = ENV['POCKET_CONSUMER_KEY']
+  app.info_plist['POCKET-CONSUMER-KEY'] = ENV['POCKET_CONSUMER_KEY'] if ENV['POCKET_CONSUMER_KEY']
 
   app.info_plist['CFBundleURLTypes'] = [
     { 'CFBundleURLName' => 'com.iwazer.mybrowser',
